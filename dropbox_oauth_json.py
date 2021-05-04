@@ -2,8 +2,14 @@ import dropbox
 import webbrowser
 import json
 
-with open('creds.json', 'r') as f:
-    oauth_creds = json.load(f)
+try:
+    with open('creds.json', 'r') as f:
+        oauth_creds = json.load(f)
+except FileNotFoundError as e:
+    print('ERROR: Unable to load credentials\n' + str(e))
+    exit()
+else:
+    print('Opened creds.json...')
 
 app_key = oauth_creds['app_key']
 app_secret = oauth_creds['app_secret']
@@ -39,7 +45,3 @@ oauth_creds['access_token'] = access_token
 # Save the refresh token and access token to json file
 with open('creds.json', 'w') as f:
     json.dump(oauth_creds, f)
-
-
-
-
